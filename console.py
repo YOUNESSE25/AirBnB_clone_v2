@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] =='}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -100,7 +100,7 @@ class HBNBCommand(cmd.Cmd):
         """ Prints the help documentation for quit  """
         print("Exits the program with formatting\n")
 
-    def do_EOF(self, i):
+    def do_EOF(self, arg):
         """ Handles EOF to exit program """
         print()
         exit()
@@ -113,7 +113,6 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-# ** task_2 *******************************************
     def do_create(self, args):
         """ Create an object of any class"""
         try:
@@ -136,7 +135,6 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[ListArg[0]](Kwargs)
         print(new_instance.id)
         new_instance.save()
-# **********************************************
 
     def help_create(self):
         """ Help information for the create method """
@@ -218,35 +216,12 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            # for k, v in storage._FileStorage__objects.items():
-            #     if k.split('.')[0] == args:
-            #         print_list.append(str(v))
             for k, v in storage.all(HBNBCommand.classes[args]).items():
                 print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
-
         print(print_list)
-
-    # def do_all(self, line):
-    #     """Usage: all or all <class> or <class>.all()
-    #     Display string representations of all instances of a given class.
-    #     If no class is specified, displays all instantiated objects."""
-    #     if not line:
-    #         o = storage.all()
-    #         print([o[k].__str__() for k in o])
-    #         return
-    #     try:
-    #         args = line.split(" ")
-    #         if args[0] not in self.__classes:
-    #             raise NameError()
-
-    #         o = storage.all(eval(args[0]))
-    #         print([o[k].__str__() for k in o])
-
-    #     except NameError:
-    #         print("** class doesn't exist **")
 
     def help_all(self):
         """ Help information for the all command """
@@ -305,21 +280,21 @@ class HBNBCommand(cmd.Cmd):
                 args.append(v)
         else:  # isolate args
             args = args[2]
-            if args and args[0] == '\"':  # check for quoted i
+            if args and args[0] == '\"':  # check for quoted arg
                 second_quote = args.find('\"', 1)
                 att_name = args[1:second_quote]
                 args = args[second_quote + 1:]
 
             args = args.partition(' ')
 
-            # if att_name was not quoted i
-            if not att_name and args[0] is not ' ':
+            # if att_name was not quoted arg
+            if not att_name and args[0] != ' ':
                 att_name = args[0]
-            # check for quoted val i
-            if args[2] and args[2][0] is '\"':
+            # check for quoted val arg
+            if args[2] and args[2][0] == '\"':
                 att_val = args[2][1:args[2].find('\"', 1)]
 
-            # if att_val was not quoted i
+            # if att_val was not quoted arg
             if not att_val and args[2]:
                 att_val = args[2].partition(' ')[0]
 
