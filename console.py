@@ -2,8 +2,8 @@
 """ Console Module """
 import cmd
 import sys
-from models.__init__ import storage
 from models.base_model import BaseModel
+from models.__init__ import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -116,11 +116,11 @@ class HBNBCommand(cmd.Cmd):
         try:
             if not args:
                 raise SyntaxError()
-            ListArg = args.shlex.split(" ")
+            ListArg = args.split(" ")
             Kwargs = {}
             arguments = ListArg[1:]
             for i in arguments:
-                splitedArg = i.shlex.split("=")
+                splitedArg = i.split("=")
                 splitedArg[1] = eval(splitedArg[1])
                 if type(splitedArg[1]) is str:
                     splitedArg[1] = splitedArg[1].strip('"')
