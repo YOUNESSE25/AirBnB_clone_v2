@@ -123,8 +123,7 @@ class HBNBCommand(cmd.Cmd):
                 splitedArg = i.split("=")
                 splitedArg[1] = eval(splitedArg[1])
                 if type(splitedArg[1]) is str:
-                    splitedArg[1] = splitedArg[1].strip('"')
-                    splitedArg[1] = splitedArg[1].replace("_", " ")
+                    splitedArg[1] = splitedArg[1].replace("_", " ").replace('"', '\\"')
                 Kwargs[splitedArg[0]] = splitedArg[1]
         except SyntaxError:
             print("** class name missing **")
