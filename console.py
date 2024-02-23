@@ -116,22 +116,31 @@ class HBNBCommand(cmd.Cmd):
         try:
             if not args:
                 raise SyntaxError()
-            ListArg = args.split(" ")
-            Kwargs = {}
-            arguments = ListArg[1:]
-            for i in arguments:
-                splitedArg = i.split("=")
-                splitedArg[1] = eval(splitedArg[1])
-                if type(splitedArg[1]) is str:
-                    splitedArg[1] = splitedArg[1].replace("_", " ").replace('"', '\\"')
-                Kwargs[splitedArg[0]] = splitedArg[1]
+            else:
+                Kvs = {}
+                allValius = args.split(" ")
+            rg = len(allValius)
+            for n in range(1, rg):
+                ks, vals = tuple(allValius[n].split('='))
+                if vals[0] == '"':
+                    vals = vals.strip('"').replace('_', ' ')
+                else:
+                    try:
+                        vals = eval(vals)
+                    except (SyntaxError, NameError):
+                        continue
+                Kvs[ks] = vals
+            if Kvs == {}:
+                Objs = eval(allValius[0])()
+            else:
+                Objs = eval(allValius[0])(**Kvs)
+                storage.new(Objs)
+            print(Objs.id)
+            Objs.save()
         except SyntaxError:
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-        new_instance = HBNBCommand.classes[ListArg[0]](Kwargs)
-        print(new_instance.id)
-        new_instance.save()
 # **********************************************
 
     def help_create(self):
