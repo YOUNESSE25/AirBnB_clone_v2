@@ -4,6 +4,8 @@ from models.base_model import BaseModel
 from models.base_model import Base
 from sqlalchemy import Column
 from sqlalchemy import String
+from sqlalchemy.orm import relationship
+
 
 
 class User(BaseModel, Base):
@@ -13,3 +15,4 @@ class User(BaseModel, Base):
     password = Column("password", String(128), nullable=False)
     first_name = Column("first_name", String(128))
     last_name = Column("last_name", String(128))
+    places = relationship("Place", backref="user", cascade="delete")
