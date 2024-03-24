@@ -29,7 +29,7 @@ def c_page(text):
 @app.route('/python')
 @app.route('/python/<text>')
 def python_is_cool(text='is cool'):
-    """Python, followed by text: /is cool/"""
+    '''Python, followed by text: /is cool/'''
     return 'Python {}'.format(text.replace('_', ' '))
 
 
@@ -41,7 +41,7 @@ def number_page(n):
 
 @app.route('/number_template/<int:n>')
 def number_template(n):
-    """Displays HTML page if n:int"""
+    '''Displays HTML page if n:int'''
     return render_template("5-number.html", n=n)
 
 
