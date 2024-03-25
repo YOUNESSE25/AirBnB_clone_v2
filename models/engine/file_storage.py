@@ -66,3 +66,7 @@ class FileStorage:
         """Dilete element"""
         if obj:
             del self.__objects[("{}.{}".format(type(obj).__name__, obj.id))]
+
+    def close(self):
+        """public method close"""
+        self.reload()
